@@ -1,0 +1,267 @@
+:root {
+  --accent: #0a4a6a;
+  --accent-soft: #f7f7f7;
+  --text: #111111;
+  --border: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 12pt;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  color: var(--text);
+  background: #ffffff;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--accent);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  padding: 3rem 2rem;
+  background: var(--accent-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.profile-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border: none;
+}
+
+.sidebar h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  align-self: flex-start;
+  text-align: left;
+}
+
+.social-links span {
+  display: inline-block;
+  letter-spacing: 0.03em;
+}
+
+.content {
+  padding: 3.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  background: #ffffff;
+  max-width: 48rem;
+  width: 100%;
+}
+
+.section h2 {
+  margin: 0 0 1.4rem;
+  font-size: 1.65rem;
+  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+}
+
+.section p {
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
+#bio {
+  max-width: 100%;
+  margin-right: 0;
+}
+
+#bio p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.publication {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.5rem;
+  padding: 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.publication + .publication {
+  margin-top: 1.75rem;
+}
+
+.pub-media img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.pub-content h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.pub-meta {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.pub-abstract {
+  margin: 0 0 1rem;
+}
+
+.pub-abstract summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  outline: none;
+  padding: 0.2rem 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.pub-abstract summary::-webkit-details-marker {
+  display: none;
+}
+
+.pub-abstract summary::after {
+  content: "\25B8";
+  font-size: 0.8rem;
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.pub-abstract[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.pub-abstract .pub-abstract-body {
+  margin-top: 0.4rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.pub-abstract .pub-abstract-body p {
+  margin: 0.75rem 0 0;
+}
+
+.pub-abstract .pub-abstract-body p:first-of-type {
+  margin-top: 0.25rem;
+}
+
+.pub-comments {
+  margin: 0 0 1rem;
+  font-style: italic;
+  color: var(--text);
+}
+
+.pub-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pub-link {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.pub-link:hover,
+.pub-link:focus {
+  text-decoration: underline;
+}
+
+.site-footer {
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    align-items: center;
+  }
+
+  .social-links {
+    align-self: stretch;
+    text-align: left;
+  }
+
+  .content {
+    padding: 2.5rem 2rem 3rem;
+    max-width: 100%;
+  }
+
+  .publication {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-media img {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 2.25rem 1.5rem 2.5rem;
+  }
+}
