@@ -3,6 +3,7 @@
   --accent-soft: #f7f7f7;
   --text: #111111;
   --border: #e5e7eb;
+  --profile-photo-size: 160px;
 }
 
 * {
@@ -44,7 +45,7 @@ a:visited {
 }
 
 .sidebar {
-  padding: 3rem 2rem;
+  padding: 3.25rem 2rem;
   background: var(--accent-soft);
   display: flex;
   flex-direction: column;
@@ -60,8 +61,8 @@ a:visited {
 }
 
 .profile-photo {
-  width: 160px;
-  height: 160px;
+  width: var(--profile-photo-size);
+  height: var(--profile-photo-size);
   object-fit: cover;
   border: none;
 }
@@ -80,8 +81,9 @@ a:visited {
   gap: 0.6rem;
   font-weight: 600;
   color: var(--accent);
-  align-self: flex-start;
+  align-self: center;
   text-align: left;
+  width: var(--profile-photo-size);
 }
 
 .social-links span {
@@ -242,8 +244,9 @@ a:visited {
   }
 
   .social-links {
-    align-self: stretch;
+    align-self: center;
     text-align: left;
+    width: var(--profile-photo-size);
   }
 
   .content {
