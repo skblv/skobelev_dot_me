@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Build index.html from assets: bio, social links, and publications.
-
-Google style docstrings are used. Paths use pathlib. No inline comments.
-"""
+"""Build index.html from assets: bio, social links, and publications."""
 
 from __future__ import annotations
 
@@ -12,7 +9,7 @@ from pathlib import Path
 import html
 from typing import Iterable
 
-from bs4 import BeautifulSoup  # type: ignore
+from bs4 import BeautifulSoup
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -388,5 +385,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
