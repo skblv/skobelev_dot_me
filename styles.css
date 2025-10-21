@@ -1,9 +1,8 @@
 :root {
   --accent: #0a4a6a;
-  --accent-soft: #f7f7f7;
   --text: #111111;
+  --text-light: #666666;
   --border: #e5e7eb;
-  --profile-photo-size: 160px;
 }
 
 * {
@@ -17,10 +16,10 @@ html {
 body {
   margin: 0;
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-optical-sizing: auto;
   font-weight: 400;
   color: var(--text);
   background: #ffffff;
+  line-height: 1.6;
 }
 
 a {
@@ -38,91 +37,66 @@ a:visited {
   color: var(--accent);
 }
 
-.layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: 100vh;
+.content {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
 }
 
-.sidebar {
-  padding: 3.25rem 2rem;
-  background: var(--accent-soft);
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.intro-section {
+  margin-bottom: 3rem;
 }
 
 .profile-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-  text-align: center;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
 .profile-photo {
-  width: var(--profile-photo-size);
-  height: var(--profile-photo-size);
+  width: 160px;
+  height: 160px;
   object-fit: cover;
-  border: none;
+  flex-shrink: 0;
 }
 
-.sidebar h1 {
-  margin: 0;
-  font-size: 2.2rem;
-  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
+.profile-text {
+  flex: 1;
+}
+
+.profile-text h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 
 .social-links {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  font-weight: 600;
-  color: var(--accent);
-  align-self: center;
-  text-align: left;
-  width: var(--profile-photo-size);
-}
-
-.social-links span {
-  display: inline-block;
-  letter-spacing: 0.03em;
-}
-
-.content {
-  padding: 3.25rem 4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-  background: #ffffff;
-  max-width: 48rem;
-  width: 100%;
-}
-
-.section h2 {
-  margin: 0 0 1.4rem;
-  font-size: 1.65rem;
-  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   font-weight: 500;
-  letter-spacing: 0.015em;
+  font-size: 0.95rem;
 }
 
-.section p {
-  margin: 1rem 0;
+.section {
+  margin-bottom: 3rem;
+}
+
+.bio-content p {
+  margin: 0 0 1rem;
   font-size: 1rem;
-}
-
-#bio {
-  max-width: 100%;
-  margin-right: 0;
-}
-
-#bio p {
+  line-height: 1.7;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
+}
+
+.section h2 {
+  margin: 0 0 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .publication {
@@ -133,10 +107,7 @@ a:visited {
   border: 1px solid var(--border);
   border-radius: 4px;
   background: #ffffff;
-}
-
-.publication + .publication {
-  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
 }
 
 .pub-media img {
@@ -145,82 +116,80 @@ a:visited {
 }
 
 .pub-content h3 {
-  margin: 0 0 0.75rem;
-  font-size: 1.3rem;
-  font-family: "Roboto Slab", "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .pub-meta {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--text);
+  color: var(--text-light);
+  font-weight: 400;
 }
 
 .pub-abstract {
-  margin: 0 0 1rem;
+  margin: 0.75rem 0;
 }
 
 .pub-abstract summary {
   cursor: pointer;
   font-weight: 500;
   color: var(--text);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   outline: none;
-  padding: 0.2rem 0;
-  text-transform: none;
-  letter-spacing: normal;
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
 }
 
 .pub-abstract summary::-webkit-details-marker {
   display: none;
 }
 
-.pub-abstract summary::after {
+.pub-abstract summary::before {
   content: "\25B8";
-  font-size: 0.8rem;
-  margin-left: auto;
+  font-size: 0.75rem;
   transition: transform 0.2s ease;
+  display: inline-block;
 }
 
-.pub-abstract[open] summary::after {
+.pub-abstract[open] summary::before {
   transform: rotate(90deg);
 }
 
 .pub-abstract .pub-abstract-body {
-  margin-top: 0.4rem;
+  margin-top: 0.75rem;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.7;
+  padding-left: 1.25rem;
 }
 
 .pub-abstract .pub-abstract-body p {
-  margin: 0.75rem 0 0;
-}
-
-.pub-abstract .pub-abstract-body p:first-of-type {
-  margin-top: 0.25rem;
+  margin: 0.5rem 0;
 }
 
 .pub-comments {
-  margin: 0 0 1rem;
+  margin: 0.75rem 0;
   font-style: italic;
-  color: var(--text);
+  color: var(--text-light);
+  font-size: 0.95rem;
 }
 
 .pub-links {
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin-top: 0.75rem;
 }
 
 .pub-link {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--accent);
+  font-size: 0.95rem;
 }
 
 .pub-link:hover,
@@ -228,32 +197,7 @@ a:visited {
   text-decoration: underline;
 }
 
-.site-footer {
-  margin-top: auto;
-  font-size: 0.9rem;
-  color: var(--accent);
-}
-
 @media (max-width: 960px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    align-items: center;
-  }
-
-  .social-links {
-    align-self: center;
-    text-align: left;
-    width: var(--profile-photo-size);
-  }
-
-  .content {
-    padding: 2.5rem 2rem 3rem;
-    max-width: 100%;
-  }
-
   .publication {
     grid-template-columns: 1fr;
   }
@@ -263,8 +207,34 @@ a:visited {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .content {
-    padding: 2.25rem 1.5rem 2.5rem;
+    padding: 2.5rem 1.5rem 3rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 11pt;
+  }
+
+  .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .profile-text h1 {
+    font-size: 1.75rem;
+  }
+
+  .social-links {
+    gap: 1rem;
+    font-size: 0.9rem;
   }
 }

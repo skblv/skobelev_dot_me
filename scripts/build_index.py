@@ -180,22 +180,6 @@ def build_social_nav(soup: BeautifulSoup, links: dict[str, str]) -> BeautifulSou
     return nav
 
 
-def build_bio_section(soup: BeautifulSoup) -> BeautifulSoup:
-    """Create the Bio section with paragraphs from bio.txt, linkifying URLs."""
-
-    section = soup.new_tag("section", attrs={"class": "section", "id": "bio"})
-    h2 = soup.new_tag("h2")
-    h2.string = "Bio"
-    section.append(h2)
-
-    container = soup.new_tag("div", id="bio-content")
-    for para in paragraphs_from_file(BIO_PATH):
-        p = soup.new_tag("p")
-        html_para = render_bio_paragraph_html(para)
-        p.append(BeautifulSoup(html_para, "html.parser"))
-        container.append(p)
-    section.append(container)
-    return section
 
 
 def build_publication_article(
@@ -208,8 +192,8 @@ def build_publication_article(
     folder = find_publication_folder(row.get("publication", ""))
     illustration = first_file(folder, "*_illustration.*") if folder else None
 
-    media_div = soup.new_tag("div", attrs={"class": "pub-media"})
     if illustration:
+        media_div = soup.new_tag("div", attrs={"class": "pub-media"})
         img = soup.new_tag("img")
         try:
             rel_src = illustration.relative_to(BASE_DIR)
@@ -218,7 +202,7 @@ def build_publication_article(
         img["src"] = rel_src.as_posix()
         img["alt"] = f"Visualization for {row.get('title', '')}"
         media_div.append(img)
-    article.append(media_div)
+        article.append(media_div)
 
     content_div = soup.new_tag("div", attrs={"class": "pub-content"})
 
@@ -246,7 +230,7 @@ def build_publication_article(
     elif year:
         meta.append(year)
     content_div.append(meta)
-
+    
     details = soup.new_tag("details", attrs={"class": "pub-abstract"})
     summary = soup.new_tag("summary")
     summary.string = "Abstract"
@@ -297,6 +281,54 @@ def build_publications_section(soup: BeautifulSoup) -> BeautifulSoup:
     return section
 
 
+def build_intro_section(soup: BeautifulSoup) -> BeautifulSoup:
+    """Create intro section with photo, name, and links."""
+
+    section = soup.new_tag("section", attrs={"class": "intro-section"})
+    
+    profile_header = soup.new_tag("div", attrs={"class": "profile-header"})
+    
+    img = soup.new_tag("img", attrs={"class": "profile-photo"})
+    try:
+        img_src = PROFILE_IMG.relative_to(BASE_DIR)
+    except ValueError:
+        img_src = PROFILE_IMG
+    img["src"] = img_src.as_posix()
+    img["alt"] = f"Portrait of {NAME}"
+    
+    profile_text = soup.new_tag("div", attrs={"class": "profile-text"})
+    h1 = soup.new_tag("h1")
+    h1.string = NAME
+    profile_text.append(h1)
+    
+    social_nav = build_social_nav(soup, load_social_links())
+    profile_text.append(social_nav)
+    
+    profile_header.extend([img, profile_text])
+    section.append(profile_header)
+    
+    return section
+
+
+def build_bio_section(soup: BeautifulSoup) -> BeautifulSoup:
+    """Create the Bio section with paragraphs from bio.txt."""
+
+    section = soup.new_tag("section", attrs={"class": "section", "id": "bio"})
+    h2 = soup.new_tag("h2")
+    h2.string = "Bio"
+    section.append(h2)
+
+    bio_content = soup.new_tag("div", attrs={"class": "bio-content"})
+    for para in paragraphs_from_file(BIO_PATH):
+        p = soup.new_tag("p")
+        html_para = render_bio_paragraph_html(para)
+        p.append(BeautifulSoup(html_para, "html.parser"))
+        bio_content.append(p)
+    section.append(bio_content)
+    
+    return section
+
+
 def build_document() -> str:
     """Assemble the full HTML document and return as a string."""
 
@@ -318,57 +350,20 @@ def build_document() -> str:
     link_fonts = soup.new_tag(
         "link",
         rel="stylesheet",
-        href=(
-            "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;"
-            "1,100..900&display=swap"
-        ),
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap",
     )
     link_css = soup.new_tag("link", rel="stylesheet", href="styles.css")
 
     head.extend([meta_charset, meta_viewport, title, link_preconnect_1, link_preconnect_2, link_fonts, link_css])
 
     body = soup.new_tag("body")
-    layout = soup.new_tag("div", attrs={"class": "layout"})
-
-    aside = soup.new_tag("aside", attrs={"class": "sidebar"})
-    profile_header = soup.new_tag("div", attrs={"class": "profile-header"})
-    img = soup.new_tag("img", attrs={"class": "profile-photo"})
-    try:
-        img_src = PROFILE_IMG.relative_to(BASE_DIR)
-    except ValueError:
-        img_src = PROFILE_IMG
-    img["src"] = img_src.as_posix()
-    img["alt"] = f"Portrait of {NAME}"
-    h1 = soup.new_tag("h1")
-    h1.string = NAME
-    profile_header.extend([img, h1])
-
-    social_nav = build_social_nav(soup, load_social_links())
-    aside.extend([profile_header, social_nav])
 
     main = soup.new_tag("main", attrs={"class": "content"})
+    main.append(build_intro_section(soup))
     main.append(build_bio_section(soup))
     main.append(build_publications_section(soup))
 
-    footer = soup.new_tag("footer", attrs={"class": "site-footer"})
-    p = soup.new_tag("p")
-    p.append("© ")
-    span = soup.new_tag("span", id="copy-year")
-    p.append(span)
-    p.append(f" {NAME}")
-    footer.append(p)
-
-    layout.extend([aside, main])
-    body.append(layout)
-
-    script = soup.new_tag("script")
-    script.string = (
-        "(function () {\n"
-        "  const yearEl = document.getElementById(\"copy-year\");\n"
-        "  if (yearEl) { yearEl.textContent = new Date().getFullYear(); }\n"
-        "})();"
-    )
-    body.append(script)
+    body.append(main)
 
     html_tag.extend([head, body])
     soup.append(html_tag)
