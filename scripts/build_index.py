@@ -166,7 +166,7 @@ def load_publication_rows() -> Iterable[dict[str, str]]:
 def build_social_nav(soup: BeautifulSoup, links: dict[str, str]) -> BeautifulSoup:
     """Construct the social links <nav> with preferred ordering."""
 
-    order = ["Email", "LinkedIn", "CV", "Google Scholar"]
+    order = ["Email", "LinkedIn", "X", "CV", "Google Scholar"]
     nav = soup.new_tag("nav", attrs={"class": "social-links"})
     for label in order:
         href = links.get(label)
