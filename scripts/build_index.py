@@ -190,19 +190,6 @@ def build_publication_article(
     article = soup.new_tag("article", attrs={"class": "publication"})
 
     folder = find_publication_folder(row.get("publication", ""))
-    illustration = first_file(folder, "*_illustration.*") if folder else None
-
-    if illustration:
-        media_div = soup.new_tag("div", attrs={"class": "pub-media"})
-        img = soup.new_tag("img")
-        try:
-            rel_src = illustration.relative_to(BASE_DIR)
-        except ValueError:
-            rel_src = illustration
-        img["src"] = rel_src.as_posix()
-        img["alt"] = f"Visualization for {row.get('title', '')}"
-        media_div.append(img)
-        article.append(media_div)
 
     content_div = soup.new_tag("div", attrs={"class": "pub-content"})
 
@@ -285,9 +272,9 @@ def build_intro_section(soup: BeautifulSoup) -> BeautifulSoup:
     """Create intro section with photo, name, and links."""
 
     section = soup.new_tag("section", attrs={"class": "intro-section"})
-    
+
     profile_header = soup.new_tag("div", attrs={"class": "profile-header"})
-    
+
     img = soup.new_tag("img", attrs={"class": "profile-photo"})
     try:
         img_src = PROFILE_IMG.relative_to(BASE_DIR)
@@ -295,18 +282,15 @@ def build_intro_section(soup: BeautifulSoup) -> BeautifulSoup:
         img_src = PROFILE_IMG
     img["src"] = img_src.as_posix()
     img["alt"] = f"Portrait of {NAME}"
-    
-    profile_text = soup.new_tag("div", attrs={"class": "profile-text"})
-    h1 = soup.new_tag("h1")
+
+    h1 = soup.new_tag("h1", attrs={"class": "profile-name"})
     h1.string = NAME
-    profile_text.append(h1)
-    
+
     social_nav = build_social_nav(soup, load_social_links())
-    profile_text.append(social_nav)
-    
-    profile_header.extend([img, profile_text])
+
+    profile_header.extend([img, h1, social_nav])
     section.append(profile_header)
-    
+
     return section
 
 
@@ -350,7 +334,14 @@ def build_document() -> str:
     link_fonts = soup.new_tag(
         "link",
         rel="stylesheet",
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap",
+        href=(
+            "https://fonts.googleapis.com/css2?"
+            "family=Inter:wght@400;500;600;700&"
+            "family=Newsreader:ital,opsz,wght@"
+            "0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;"
+            "1,6..72,400;1,6..72,500&"
+            "display=swap"
+        ),
     )
     link_css = soup.new_tag("link", rel="stylesheet", href="styles.css")
 
